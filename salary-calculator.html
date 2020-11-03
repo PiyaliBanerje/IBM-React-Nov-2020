@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Salary Calculator</title>
+    <style>
+        body{
+            margin-left: 50px;
+        }
+        .field{
+            margin-bottom: 10px;
+        }
+        td{
+            font-size: 18pt;
+            padding-right: 10px;
+        }
+        label{
+            display: block;
+        }
+    </style>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script type="text/babel">
+        class Calculator extends React.Component{
+            state = {
+                basic : 0.0,
+                hra : 0.0,
+                da : 0.0,
+                tax : 0.0,
+                salary : 0.0
+            };
+            onBasicChange = (evt) => {
+                this.setState({ basic :parseInt(evt.target.value) });
+            }
+            onHRAChange = (evt) => {
+                this.setState({ hra : parseInt(evt.target.value) });
+            }
+            onDAChange = (evt) => {
+                this.setState({ da : parseInt(evt.target.value) });
+            }
+            onTaxChange = (evt) => {
+                this.setState({ tax : parseInt(evt.target.value) });
+            }
+            calculateTax  = (evt) => {
+                let salaryTemp = this.state.basic+this.state.hra+this.state.da;
+                let taxTemp = salaryTemp * this.state.tax/100
+                let salaryFinal = salaryTemp-taxTemp 
+                this.setState({salary : salaryFinal})
+            }
+            render = () => {
+                return (
+                        <div>
+                            <h1>Salary Calculator</h1>
+                            <hr/>
+                            <section>
+                                <div className="field">
+                                    <label htmlFor="">Basic :</label>
+                                    <input type="number" onChange={this.onBasicChange}/></div>
+                                <div className="field">
+                                    <label htmlFor="">HRA :</label>
+                                    <input type="number" onChange={this.onHRAChange}/></div>
+                                <div className="field">
+                                    <label htmlFor="">DA :</label>
+                                    <input type="number" onChange={this.onDAChange}/></div>
+                                <div className="field">
+                                        <label htmlFor="">Tax :</label>
+                                        <input type="range" min="0" max="30" onChange={this.onTaxChange}/>
+                                </div>
+                                <div className="field">
+                                    <input type="button" value="Calculate" onClick={this.calculateTax}/>
+                                </div>
+                                <div className="field">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>{this.state.basic}</td>
+                                                <td>{this.state.hra}</td>
+                                                <td>{this.state.da}</td>
+                                                <td>{this.state.tax}</td>
+                                                <td>{this.state.salary}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                    </div>
+                );
+            }
+        }
+        ReactDOM.render(<Calculator/>, document.getElementById('root'))
+    </script>
+</head>
+<body>
+    <div id = "root"></div>
+</body>
+</html>
